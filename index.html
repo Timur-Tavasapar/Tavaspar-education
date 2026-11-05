@@ -22,43 +22,37 @@
     <noscript><p class="container noscript-note">Для переходов между страницами включи JavaScript в браузере.</p></noscript>
 
     <main id="main" tabindex="-1">
-      <div id="home-view" class="site-view">
-        <section class="hero container" aria-labelledby="hero-title">
-          <div class="hero-copy">
-            <p class="eyebrow"><span class="small-line" aria-hidden="true"></span>Математика с Тимуром Раджабовым</p>
-            <h1 id="hero-title" tabindex="-1">Подготовка<br />к ОГЭ и ЕГЭ<span class="hero-subject">по математике</span></h1>
-            <p class="hero-description">От первого непонимания до уверенного решения.<br /> Видеоуроки, теория и практика в одном месте.</p>
-            <div class="hero-actions"><a class="button button-primary" href="#/directions">Выбрать направление <span aria-hidden="true">→</span></a><a class="button button-outline" href="#/lesson/powers">Посмотреть пример урока <span aria-hidden="true">↗</span></a></div>
+      <div id="home-view" class="site-view home-redesign">
+        <section class="home-hero container" aria-labelledby="hero-title">
+          <div class="home-hero-copy">
+            <p class="home-kicker">Математика · ОГЭ и ЕГЭ</p>
+            <h1 id="hero-title" tabindex="-1">Сложное становится<br /><em>понятным.</em></h1>
+            <p class="home-lead">Подготовка по математике с Тимуром Раджабовым. От смысла правила — к уверенности в решении.</p>
+            <div class="hero-actions home-actions"><a class="home-button" href="#/directions">Выбрать направление <span aria-hidden="true">↗</span></a><a class="home-text-link" href="#/lesson/powers">Попробовать урок <span aria-hidden="true">→</span></a></div>
           </div>
-          <aside class="trial-preview theory-preview" aria-labelledby="preview-title">
-            <div class="preview-top"><p class="eyebrow">Фрагмент теории</p><span class="preview-badge">Степени</span></div>
-            <h2 id="preview-title">Что означает минус<br />в показателе?</h2>
-            <div class="preview-math" aria-label="Два в степени минус три равно одной восьмой"><span>2<sup>−3</sup></span><span class="formula-equals">=</span><span class="fraction"><span>1</span><span>2<sup>3</sup></span></span><span class="formula-equals">=</span><span class="fraction"><span>1</span><span>8</span></span></div>
-            <p class="preview-explanation">Отрицательная степень означает переход к обратному числу.</p>
-            <p class="preview-example">2³ = 8, поэтому 2⁻³ = 1/8.</p>
+          <aside class="home-note" aria-label="Подход к математике">
+            <span class="home-note-label">Сначала понять. Потом решить.</span>
+            <div class="home-equation" aria-hidden="true">a<sup>m</sup> · a<sup>n</sup><br /><span>= a<sup>m+n</sup></span></div>
+            <p>За каждой формулой<br />есть понятная мысль.</p>
+            <span class="home-note-index">Tavaspar / Математика</span>
           </aside>
         </section>
-
-        <section class="courses-section" id="courses" aria-labelledby="courses-title">
-          <div class="container">
-            <div class="section-heading"><h2 id="courses-title" tabindex="-1">Выбери своё направление</h2></div>
-            <div class="course-grid">
-              <article class="course-card"><div class="course-top"><span class="course-symbol" aria-hidden="true"><svg viewBox="0 0 52 52" fill="none"><path d="M9 41L26 10L43 41H9Z" stroke="currentColor" stroke-width="1.8"/><path d="M14 32H38M26 10V41" stroke="currentColor" stroke-width="1.3" stroke-dasharray="3 4"/></svg></span><span class="class-label">9 класс</span></div><h3>ОГЭ</h3><p>Укрепить школьную базу и разобраться в задачах экзамена.</p><a class="course-bottom course-card-link" href="#/course/oge"><span>О направлении</span><span class="course-link" aria-hidden="true">↗</span></a></article>
-              <article class="course-card"><div class="course-top"><span class="course-symbol symbol-percent" aria-hidden="true">%</span><span class="class-label">11 класс</span></div><h3>ЕГЭ <span>База</span></h3><p>Понять основные темы и отработать нужные математические навыки.</p><a class="course-bottom course-card-link" href="#/course/base"><span>О направлении</span><span class="course-link" aria-hidden="true">↗</span></a></article>
-              <article class="course-card course-featured"><div class="course-top"><span class="course-symbol symbol-function" aria-hidden="true">ƒ(x)</span><span class="class-label">11 класс</span></div><h3>ЕГЭ <span>Профиль</span></h3><p>От базовых преобразований до задач с развёрнутым решением.</p><a class="course-bottom course-card-link" href="#/course/profile"><span>О направлении</span><span class="course-link" aria-hidden="true">↗</span></a></article>
-            </div>
+        <section class="home-directions container" aria-labelledby="courses-title">
+          <div class="home-section-head"><div><p class="home-kicker">01 / Твоё направление</p><h2 id="courses-title" tabindex="-1">Какая цель у тебя?</h2></div><p>Три направления.<br /> Один внимательный подход.</p></div>
+          <div class="home-course-grid">
+            <a class="home-course" href="#/course/oge"><span class="home-course-meta">9 класс <span aria-hidden="true">↗</span></span><h3>ОГЭ</h3><p>Укрепить базу и разобраться<br />в задачах экзамена.</p><span class="home-course-bottom">Алгебра · Геометрия</span></a>
+            <a class="home-course" href="#/course/base"><span class="home-course-meta">11 класс <span aria-hidden="true">↗</span></span><h3>ЕГЭ <span>база</span></h3><p>Освоить основные темы<br />школьной математики.</p><span class="home-course-bottom">Вычисления · Уравнения</span></a>
+            <a class="home-course" href="#/course/profile"><span class="home-course-meta">11 класс <span aria-hidden="true">↗</span></span><h3>ЕГЭ <span>профиль</span></h3><p>Разобраться в преобразованиях<br />и развёрнутых решениях.</p><span class="home-course-bottom">Алгебра · Геометрия · Вероятность</span></a>
           </div>
         </section>
-
-        <section class="trial-section container" aria-labelledby="trial-title">
-          <div class="section-heading"><div><p class="eyebrow">Пробное занятие · Теория</p><h2 id="trial-title">Степени с целым показателем</h2></div><span class="trial-access">Без регистрации</span></div>
-          <p class="trial-intro">Открой урок целиком или сразу перейди к нужному разделу.</p>
-          <div class="trial-grid">
-            <a class="trial-card" href="#/lesson/powers"><span class="trial-card-top"><span class="step-number">01 /</span><span class="trial-symbol" aria-hidden="true">aⁿ</span></span><span class="trial-card-title">Смысл степени</span><span class="trial-card-description">Основание и показатель. Нулевая и отрицательная степени.</span><span class="trial-card-action">Открыть урок <span aria-hidden="true">↗</span></span></a>
-            <a class="trial-card" href="#/lesson/powers?section=properties"><span class="trial-card-top"><span class="step-number">02 /</span><span class="trial-symbol" aria-hidden="true">×</span></span><span class="trial-card-title">Свойства</span><span class="trial-card-description">Как умножать, делить и возводить степени в степень.</span><span class="trial-card-action">Посмотреть правила <span aria-hidden="true">↗</span></span></a>
-            <a class="trial-card" href="#/lesson/powers?section=signs"><span class="trial-card-top"><span class="step-number">03 /</span><span class="trial-symbol" aria-hidden="true">(−)</span></span><span class="trial-card-title">Знак и скобки</span><span class="trial-card-description">Чем отличаются (−2)² и −2². Частые ошибки и разобранный пример.</span><span class="trial-card-action">Разобраться со знаками <span aria-hidden="true">↗</span></span></a>
-          </div>
+        <section class="home-teacher container" aria-labelledby="home-teacher-title">
+          <div><p class="home-kicker">02 / О преподавателе</p><h2 id="home-teacher-title">Тимур Раджабов</h2><p class="home-teacher-role">Преподаватель математики.<br />Автор Tavaspar Education.</p></div>
+          <div class="home-teacher-copy"><p>Математика начинается с понимания. На примере урока по степеням покажу, как за привычными формулами увидеть смысл — и применять правила по шагам.</p><a class="home-text-link" href="#/about">Познакомиться с преподавателем <span aria-hidden="true">↗</span></a></div>
         </section>
+        <section class="home-trial" aria-labelledby="trial-title"><div class="container home-trial-grid">
+          <div class="home-trial-copy"><p class="home-kicker">03 / Начни с понимания</p><h2 id="trial-title">Один урок.<br />Первое открытие.</h2><p>Степени с целым показателем: смысл, свойства и работа со знаками. Открытая теория с пошаговым разбором.</p><a class="home-button" href="#/lesson/powers">Открыть пробный урок <span aria-hidden="true">↗</span></a><span class="home-access">Без регистрации · Бесплатно</span></div>
+          <div class="home-notebook"><div class="home-notebook-top"><span>Теория / 01</span><span>Степени</span></div><h3>Почему минус в степени<br />не делает число отрицательным?</h3><div class="home-notebook-formula" aria-label="Два в степени минус три равно одной восьмой"><span>2<sup>−3</sup></span><span>=</span><span class="fraction"><span>1</span><span>2<sup>3</sup></span></span><span>=</span><span class="fraction"><span>1</span><span>8</span></span></div><p>Отрицательная степень —<br />это переход к обратному числу.</p><nav class="home-lesson-links" aria-label="Разделы пробного урока"><a href="#/lesson/powers?section=meaning">Смысл степени <span aria-hidden="true">↗</span></a><a href="#/lesson/powers?section=properties">Свойства <span aria-hidden="true">↗</span></a><a href="#/lesson/powers?section=signs">Знак и скобки <span aria-hidden="true">↗</span></a></nav></div>
+        </div></section>
       </div>
 
       <section id="course-view" class="site-view container inner-page" aria-labelledby="course-title" hidden>
