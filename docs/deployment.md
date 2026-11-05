@@ -5,7 +5,10 @@
 Сайт подготовлен для GitHub Pages из корня ветки `gh-pages`.
 В README этой ветки описана настройка Settings → Pages →
 Deploy from a branch → gh-pages → / (root).
-`.nojekyll` отключает обработку Jekyll; сайт представляет собой статический HTML.
+`.nojekyll` отключает обработку Jekyll; сайт представляет собой статические HTML, CSS и JavaScript.
+После структурного рефакторинга в `develop` для будущего выпуска необходимы
+`index.html` и весь каталог `assets` с сохранением относительных путей.
+Нельзя выпускать только обновлённый HTML без связанных файлов CSS/JS.
 
 GitHub Actions подтверждает успешные build и deploy для коммита
 `df83ea52db23d2ecd52d6c830c70c73ccfc60753`:
