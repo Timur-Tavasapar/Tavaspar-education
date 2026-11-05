@@ -311,5 +311,16 @@ class SmokeTests(unittest.TestCase):
         self.assert_carousel_slide(0)
 
 
+    def test_home_introduction_precedes_sample_lesson(self):
+        self.go('/')
+        hero = self.page.locator('.home-hero')
+        expect(hero.locator('h1')).to_contain_text('ОГЭ и ЕГЭ')
+        expect(hero.locator('a[href="#/lesson/powers"]')).to_have_count(0)
+        expect(self.page.locator('#home-view')).not_to_contain_text('Степени')
+        expect(self.page.locator('#trial-title')).to_have_text('Пробное занятие')
+        self.page.locator('.home-trial a[href="#/lesson/powers"]').click()
+        expect(self.page.locator('#lesson-title')).to_have_text('Степени с целым показателем')
+
+
 if __name__ == '__main__':
     unittest.main()

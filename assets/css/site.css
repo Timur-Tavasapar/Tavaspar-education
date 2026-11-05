@@ -538,3 +538,20 @@ body:has(#home-view:not([hidden])) .desktop-nav a:hover{color:#886a2b}
 .home-carousel-stage{display:grid;touch-action:pan-y}
 .home-carousel-slide{grid-area:1 / 1;min-width:0}
 .home-carousel-slide[hidden]{display:grid!important;visibility:hidden;pointer-events:none}
+/* Expressive introduction: the offer precedes the sample lesson. */
+.home-hero-v2{width:min(1320px,calc(100% - 64px));background:var(--green);color:var(--cream);border-radius:22px;padding:65px 60px;margin-block:24px 70px;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:55px;overflow:hidden}
+.home-hero-v2 .home-kicker{color:#e3c27d;font-size:12px;line-height:1.8}
+.home-hero-v2 h1{font-size:clamp(46px,5.4vw,78px);letter-spacing:-3px;line-height:1.12;margin:26px 0}
+.home-hero-v2 h1 em{color:#e3c27d;font-style:normal;white-space:nowrap}
+.home-hero-v2 .home-lead{color:#d6e0d9;font-size:17px;max-width:540px}
+.home-redesign .home-hero-v2 .home-button{background:var(--cream);color:var(--green);border-radius:7px;padding:17px 24px}
+.home-redesign .home-hero-v2 .home-button:hover{background:#e9d6a8;color:var(--green)}
+.home-brand-poster{align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;background:var(--sage);color:var(--green);border-radius:14px;padding:28px;min-width:0;transform:rotate(2deg);margin:15px 6px}
+.home-poster-top{display:flex;align-items:center;justify-content:space-between;gap:20px;font-size:13px;line-height:1.8}.home-poster-top img{width:60px;height:60px}
+.home-poster-statement{font-size:clamp(25px,2.8vw,40px);line-height:1.35;letter-spacing:-1.3px;margin-block:38px;font-weight:700}.home-poster-statement>span{font-weight:400}
+.home-exam-labels{display:grid;grid-template-columns:1fr 1fr;gap:16px;border-top:1px solid #bccfc2;padding-top:22px}.home-exam-labels>span{display:flex;flex-direction:column;gap:7px;font-size:14px;color:var(--muted)}.home-exam-labels strong{font-size:28px;letter-spacing:-1px;color:var(--green)}
+.home-redesign .home-course{border-top:4px solid var(--green);padding:28px;min-height:300px}.home-redesign .home-course:nth-child(2){border-top-color:var(--home-gold)}.home-redesign .home-course:nth-child(3){border-top-color:var(--burgundy)}.home-redesign .home-course>p{font-size:16px}
+.home-trial-v2{background:var(--green);color:var(--cream);padding-block:65px}.home-trial-v2 .home-kicker{color:#e3c27d}.home-trial-v2 .home-trial-copy>p:not(.home-kicker){color:#d6e0d9;max-width:500px}.home-redesign .home-trial-v2 .home-button{background:var(--cream);color:var(--green)}.home-redesign .home-trial-v2 .home-button:hover{background:#e9d6a8}
+.home-trial-invitation{border-left:1px solid #5a8075;padding-left:50px}.home-trial-arrow{display:block;font-size:65px;line-height:1;color:#e3c27d;margin-bottom:25px}.home-trial-invitation>p{font-size:25px;line-height:1.6;letter-spacing:-.6px}.home-trial-invitation .home-access{color:#d6e0d9}
+@media(max-width:1100px){.home-hero-v2{padding:45px 35px;gap:30px}.home-hero-v2 h1{font-size:54px;letter-spacing:-2px}.home-brand-poster{padding:22px}.home-poster-statement{font-size:30px}}
+@media(max-width:760px){.home-hero-v2{width:calc(100% - 24px);grid-template-columns:1fr;border-radius:14px;padding:32px 23px;margin-block:12px 42px;gap:30px}.home-hero-v2 h1{font-size:clamp(34px,9vw,52px);line-height:1.17;letter-spacing:-1.4px;margin:22px 0}.home-hero-v2 .home-lead{font-size:16px}.home-hero-v2 .home-kicker{font-size:10px;letter-spacing:1px}.home-brand-poster{transform:none;margin:0;padding:22px}.home-poster-statement{font-size:28px;margin-block:22px;letter-spacing:-.7px}.home-poster-top{font-size:12px}.home-poster-top img{width:46px;height:46px}.home-exam-labels{padding-top:15px}.home-exam-labels strong{font-size:25px}.home-redesign .home-course{padding:24px;min-height:0;border-top-width:3px}.home-trial-v2{padding-block:42px}.home-trial-v2 .home-trial-grid{gap:32px}.home-trial-invitation{padding:26px 0 0;border-left:0;border-top:1px solid #5a8075}.home-trial-arrow{font-size:44px;margin-bottom:16px}.home-trial-invitation>p{font-size:21px}}
