@@ -380,3 +380,131 @@ document.querySelector('#demo-sign-out').addEventListener('click', () => {
 });
 renderRoute();
 
+
+// Accessible homepage carousel. Manual navigation always stops automatic rotation.
+(() => {
+  const carousel = document.querySelector('#home-carousel');
+  if (!carousel) return;
+  const home = document.querySelector('#home-view');
+  const slides = [...carousel.querySelectorAll('[data-home-slide]')];
+  const selectors = [...carousel.querySelectorAll('[data-carousel-go]')];
+  const toggle = carousel.querySelector('#carousel-toggle');
+  const status = carousel.querySelector('#carousel-status');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const names = ['Преподаватель', 'Результаты ОГЭ–2026', 'Подход к занятиям'];
+  const duration = 9000;
+  let current = 0;
+  let playing = !reducedMotion.matches;
+  let inView = false;
+  let hovered = false;
+  let focused = false;
+  let elapsed = 0;
+  let previousTime = null;
+  let frame = null;
+  let swipeStart = null;
+
+  function eligible() {
+    return playing && inView && !home.hidden && !document.hidden && !hovered && !focused;
+  }
+
+  function paintProgress() {
+    carousel.style.setProperty('--carousel-progress', `${Math.min(100, elapsed / duration * 100)}%`);
+  }
+
+  function syncRotation() {
+    carousel.dataset.playing = String(playing);
+    toggle.setAttribute('aria-pressed', String(playing));
+    toggle.setAttribute('aria-label', playing ? 'Остановить автопрокрутку' : 'Включить автопрокрутку');
+    toggle.firstElementChild.textContent = playing ? 'Ⅱ' : '▶';
+    const rotating = eligible();
+    carousel.dataset.rotating = String(rotating);
+    if (rotating && frame === null) frame = requestAnimationFrame(tick);
+    if (!rotating) {
+      if (frame !== null) cancelAnimationFrame(frame);
+      frame = null;
+      previousTime = null;
+    }
+  }
+
+  function show(index, manual = false) {
+    const next = (index + slides.length) % slides.length;
+    const moveFocus = slides[current].contains(document.activeElement);
+    current = next;
+    slides.forEach((slide, i) => { slide.hidden = i !== current; });
+    selectors.forEach((button, i) => {
+      if (i === current) button.setAttribute('aria-current', 'true');
+      else button.removeAttribute('aria-current');
+    });
+    elapsed = 0;
+    previousTime = null;
+    paintProgress();
+    if (manual) {
+      playing = false;
+      status.textContent = `${current + 1} из ${slides.length}. ${names[current]}.`;
+      if (moveFocus) selectors[current].focus({ preventScroll: true });
+    }
+    syncRotation();
+  }
+
+  function tick(time) {
+    frame = null;
+    if (!eligible()) { syncRotation(); return; }
+    if (previousTime !== null) elapsed += time - previousTime;
+    previousTime = time;
+    if (elapsed >= duration) show(current + 1);
+    else paintProgress();
+    if (eligible() && frame === null) frame = requestAnimationFrame(tick);
+  }
+
+  selectors.forEach((button, i) => button.addEventListener('click', () => show(i, true)));
+  carousel.querySelector('#carousel-prev').addEventListener('click', () => show(current - 1, true));
+  carousel.querySelector('#carousel-next').addEventListener('click', () => show(current + 1, true));
+  toggle.addEventListener('click', () => {
+    playing = !playing;
+    syncRotation();
+  });
+  carousel.addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    const offsets = { ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: slides.length - 1 };
+    if (!Object.hasOwn(offsets, event.key)) return;
+    event.preventDefault();
+    show(offsets[event.key], true);
+  });
+  carousel.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'touch') return;
+    hovered = true;
+    syncRotation();
+  });
+  carousel.addEventListener('pointerleave', () => { hovered = false; syncRotation(); });
+  carousel.addEventListener('focusin', () => { focused = true; syncRotation(); });
+  carousel.addEventListener('focusout', () => {
+    // Wait until the new focused element is known when moving between controls.
+    queueMicrotask(() => { focused = carousel.contains(document.activeElement); syncRotation(); });
+  });
+  carousel.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'touch') swipeStart = { x: event.clientX, y: event.clientY };
+  });
+  carousel.addEventListener('pointerup', event => {
+    if (!swipeStart || event.pointerType !== 'touch') return;
+    const dx = event.clientX - swipeStart.x;
+    const dy = event.clientY - swipeStart.y;
+    swipeStart = null;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) show(current + (dx < 0 ? 1 : -1), true);
+  });
+  carousel.addEventListener('pointercancel', () => { swipeStart = null; });
+  document.addEventListener('visibilitychange', syncRotation);
+  window.addEventListener('hashchange', syncRotation);
+  new MutationObserver(syncRotation).observe(home, { attributes: true, attributeFilter: ['hidden'] });
+  new IntersectionObserver(entries => {
+    inView = entries[0].isIntersecting && entries[0].intersectionRatio >= .25;
+    syncRotation();
+  }, { threshold: [0, .25] }).observe(carousel);
+  reducedMotion.addEventListener('change', () => {
+    if (reducedMotion.matches) playing = false;
+    syncRotation();
+  });
+  document.querySelector('#carousel-lesson-scroll').addEventListener('click', () => {
+    scrollToElement(document.querySelector('#trial-title'), true);
+  });
+  syncRotation();
+})();

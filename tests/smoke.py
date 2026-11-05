@@ -148,6 +148,168 @@ class SmokeTests(unittest.TestCase):
                 self.page.keyboard.press('Enter')
                 expect(guide.locator('table')).to_be_hidden()
 
+    def assert_carousel_slide(self, index):
+        carousel = self.page.locator('#home-carousel')
+        expect(carousel.locator('[data-carousel-slide]:visible')).to_have_count(1)
+        for number in range(3):
+            slide = carousel.locator(f'[data-carousel-slide="{number}"]')
+            if number == index:
+                expect(slide).to_be_visible()
+                expect(carousel.locator(f'[data-carousel-go="{number}"]')).to_have_attribute(
+                    'aria-current', 'true')
+            else:
+                expect(slide).to_be_hidden()
+                expect(slide).to_have_attribute('hidden', '')
+                self.assertFalse(slide.evaluate('el => el.contains(document.activeElement)'),
+                                 'Focus must not remain in an inactive slide')
+        expect(carousel.locator('[data-carousel-go][aria-current="true"]')).to_have_count(1)
+
+    def test_home_carousel_manual_controls_and_links(self):
+        for width in (390, 1440):
+            with self.subTest(width=width):
+                self.page.set_viewport_size({'width': width, 'height': 900})
+                self.go('/')
+                carousel = self.page.locator('#home-carousel')
+                # Hash-only navigation retains state; reload for a fresh viewport run.
+                self.page.reload()
+                self.page.evaluate('document.fonts.ready')
+                controls = carousel.locator('.home-carousel-controls')
+                controls_top = controls.evaluate('el => el.getBoundingClientRect().top + scrollY')
+
+                def verify_slide(index):
+                    self.assert_carousel_slide(index)
+                    self.assertAlmostEqual(
+                        controls.evaluate('el => el.getBoundingClientRect().top + scrollY'),
+                        controls_top, delta=1, msg='Carousel controls shift between slides')
+
+                expect(carousel).to_have_attribute('data-playing', 'false')
+                verify_slide(0)
+                carousel.locator('[data-carousel-next]').click()
+                verify_slide(1)
+                carousel.locator('[data-carousel-prev]').click()
+                verify_slide(0)
+                carousel.locator('[data-carousel-prev]').click()
+                verify_slide(2)
+                carousel.locator('[data-carousel-go="1"]').click()
+                verify_slide(1)
+                self.page.keyboard.press('ArrowRight')
+                verify_slide(2)
+                self.page.keyboard.press('ArrowLeft')
+                verify_slide(1)
+                self.page.keyboard.press('Home')
+                verify_slide(0)
+                self.page.keyboard.press('End')
+                verify_slide(2)
+                # Leaving a slide from its content must not strand focus in hidden DOM.
+                carousel.locator('[data-carousel-go="0"]').click()
+                carousel.locator('[data-carousel-slide="0"] a').focus()
+                self.page.keyboard.press('End')
+                verify_slide(2)
+                expect(carousel.locator('[data-carousel-go="2"]')).to_be_focused()
+                if width == 390:
+                    carousel.locator('[data-carousel-go="0"]').click()
+                    slide = carousel.locator('[data-carousel-slide="0"]')
+                    slide.scroll_into_view_if_needed()
+                    box = slide.bounding_box()
+                    touch = self.context.new_cdp_session(self.page)
+                    try:
+                        for event, x in [('touchStart', box['x'] + 250),
+                                         ('touchMove', box['x'] + 200),
+                                         ('touchMove', box['x'] + 140)]:
+                            touch.send('Input.dispatchTouchEvent', {
+                                'type': event,
+                                'touchPoints': [{'x': x, 'y': box['y'] + 100}]})
+                        touch.send('Input.dispatchTouchEvent', {
+                            'type': 'touchEnd', 'touchPoints': []})
+                    finally:
+                        touch.detach()
+                    verify_slide(1)
+                expect(carousel).to_have_attribute('data-playing', 'false')
+                expect(carousel.locator('[data-carousel-toggle]')).to_have_attribute(
+                    'aria-pressed', 'false')
+                self.assertTrue(self.page.evaluate(
+                    'document.documentElement.scrollWidth <= innerWidth'))
+                self.page.locator('#carousel-lesson-scroll').click()
+                expect(self.page.locator('#trial-title')).to_be_focused()
+                self.page.locator('.home-trial a[href="#/lesson/powers"]').click()
+                expect(self.page.locator('#lesson-view')).to_be_visible()
+
+    def test_home_carousel_autoplay_and_pause(self):
+        self.page.emulate_media(reduced_motion='no-preference')
+        self.page.clock.install()
+        self.go('/')
+        carousel = self.page.locator('#home-carousel')
+        carousel.scroll_into_view_if_needed()
+        self.page.mouse.move(0, 0)
+        expect(carousel).to_have_attribute('data-playing', 'true')
+        expect(carousel).to_have_attribute('data-rotating', 'true')
+        self.page.clock.run_for(9200)
+        self.assert_carousel_slide(1)
+
+        self.page.evaluate("scrollTo({top: 0, behavior: 'instant'})")
+        expect(carousel).to_have_attribute('data-rotating', 'false')
+        self.page.clock.run_for(10000)
+        self.assert_carousel_slide(1)
+        carousel.scroll_into_view_if_needed()
+        expect(carousel).to_have_attribute('data-rotating', 'true')
+
+        # Hover/focus suspend rotation without changing the user's play choice.
+        carousel.hover()
+        expect(carousel).to_have_attribute('data-rotating', 'false')
+        self.page.clock.run_for(10000)
+        self.assert_carousel_slide(1)
+        expect(carousel).to_have_attribute('data-playing', 'true')
+        self.page.mouse.move(0, 0)
+        carousel.locator('[data-carousel-next]').focus()
+        expect(carousel).to_have_attribute('data-rotating', 'false')
+        self.page.clock.run_for(10000)
+        self.assert_carousel_slide(1)
+
+        # A deliberate selection stops autoplay until the user starts it again.
+        carousel.locator('[data-carousel-next]').click()
+        self.assert_carousel_slide(2)
+        expect(carousel).to_have_attribute('data-playing', 'false')
+        self.page.clock.run_for(10000)
+        self.assert_carousel_slide(2)
+        toggle = carousel.locator('[data-carousel-toggle]')
+        toggle.click()
+        expect(toggle).to_have_attribute('aria-pressed', 'true')
+        self.page.locator('.brand').evaluate('el => el.focus({preventScroll: true})')
+        carousel.scroll_into_view_if_needed()
+        self.page.mouse.move(0, 0)
+        expect(carousel).to_have_attribute('data-rotating', 'true')
+        self.page.clock.run_for(9200)
+        self.assert_carousel_slide(0)
+        toggle.click()
+        expect(toggle).to_have_attribute('aria-pressed', 'false')
+        self.page.clock.run_for(10000)
+        self.assert_carousel_slide(0)
+
+        # A route change prevents an off-screen carousel from cycling.
+        toggle.click()
+        self.page.locator('.brand').evaluate('el => el.focus({preventScroll: true})')
+        carousel.scroll_into_view_if_needed()
+        self.page.mouse.move(0, 0)
+        expect(carousel).to_have_attribute('data-rotating', 'true')
+        self.page.evaluate("location.hash = '#/lesson/powers'")
+        expect(self.page.locator('#lesson-view')).to_be_visible()
+        expect(carousel).to_have_attribute('data-rotating', 'false')
+        self.page.clock.run_for(10000)
+        expect(carousel.locator('[data-carousel-slide="0"]')).not_to_have_attribute('hidden', '')
+
+    def test_home_carousel_reduced_motion(self):
+        self.page.clock.install()
+        self.go('/')
+        carousel = self.page.locator('#home-carousel')
+        carousel.scroll_into_view_if_needed()
+        self.page.mouse.move(0, 0)
+        expect(carousel).to_have_attribute('data-playing', 'false')
+        expect(carousel).to_have_attribute('data-rotating', 'false')
+        expect(carousel.locator('[data-carousel-toggle]')).to_have_attribute(
+            'aria-pressed', 'false')
+        self.page.clock.run_for(20000)
+        self.assert_carousel_slide(0)
+
 
 if __name__ == '__main__':
     unittest.main()

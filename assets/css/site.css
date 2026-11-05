@@ -474,3 +474,67 @@ body:has(#home-view:not([hidden])) .desktop-nav a:hover{color:#886a2b}
 .home-score-guide-body .home-geometry-note{padding:18px 20px;border-left:3px solid var(--gold);background:var(--sage);color:var(--green)}
 .home-score-guide-body .home-text-link{font-size:14px}.home-score-year-note{font-size:14px}
 @media(max-width:760px){.home-results{padding-bottom:40px}.home-result-panel{grid-template-columns:1fr;gap:24px;padding:24px}.home-result-scores{gap:24px 12px;grid-template-columns:1fr}.home-result-scores li{flex-direction:row;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:18px}.home-result-scores strong{font-size:32px}.home-score-guide summary{align-items:start;flex-direction:column;gap:8px}.home-score-guide summary>span{width:100%;display:flex;justify-content:space-between}.home-score-guide-body .home-text-link{overflow-wrap:anywhere}}
+
+/* Homepage story carousel. The lesson and score guide stay outside rotation. */
+.home-story{padding-bottom:64px}
+.home-carousel{border:1px solid var(--line);border-radius:6px;background:#fff;overflow:hidden;touch-action:pan-y}
+.home-carousel-stage{min-height:514px}
+.home-carousel-slide{display:grid;grid-template-columns:1.15fr 1fr;gap:58px;align-items:center;min-height:514px;padding:42px 46px}
+.home-carousel-slide[hidden]{display:none}
+.home-slide-eyebrow{font-size:12px;line-height:1.7;color:var(--home-gold);font-weight:700;letter-spacing:.5px}
+.home-slide-copy h3{font-size:46px;line-height:1.15;letter-spacing:-1.8px;margin:17px 0 20px}
+.home-slide-intro{font-size:17px;line-height:1.8;max-width:440px}
+.home-teacher-facts{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:24px 0}
+.home-teacher-facts dt{font-size:22px;font-weight:700;letter-spacing:-.5px}
+.home-teacher-facts dd{font-size:13px;line-height:1.8;color:var(--muted);margin:4px 0 0}
+.home-slide-detail{font-size:14px;line-height:1.85;color:var(--muted);margin-top:20px}
+.teacher-portrait{margin:0;align-self:stretch;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--cream);border:1px solid var(--line);padding:32px 20px}
+.home-teacher-emblem{width:142px;height:142px;object-fit:contain}
+.teacher-portrait figcaption{font-size:23px;line-height:1.5;margin-top:28px;letter-spacing:-.5px}
+.teacher-portrait figcaption>span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:16px}
+.teacher-portrait>img:not(.home-teacher-emblem){width:100%;height:100%;max-height:440px;object-fit:cover;object-position:center 35%}
+.home-results-context{font-size:12px;line-height:1.8;color:var(--muted);margin-top:22px;max-width:355px}
+.home-slide-scoreboard{padding:28px 30px;background:var(--sage);border-radius:3px}
+.home-scoreboard-label{font-size:12px;line-height:1.6;font-weight:700}
+.home-slide-scoreboard .home-result-scores{display:block;margin-top:10px}
+.home-slide-scoreboard .home-result-scores li{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:17px 0;border-bottom:1px solid #c5d3c8}
+.home-slide-scoreboard .home-result-scores strong{font-size:39px}
+.home-slide-scoreboard .home-result-scores li>span{font-size:12px;white-space:nowrap}
+.home-slide-scoreboard>p{font-size:12px;line-height:1.8;color:var(--muted);margin-top:18px}
+.home-method{list-style:none;margin:0;padding:0}
+.home-method li{display:flex;gap:19px;padding:28px 0;border-bottom:1px solid var(--line)}
+.home-method li:first-child{border-top:1px solid var(--line)}
+.home-method li>span{font-size:13px;color:var(--home-gold);padding-top:5px}
+.home-method h4{font-size:21px;line-height:1.5;letter-spacing:-.4px}
+.home-method p{font-size:14px;line-height:1.8;color:var(--muted);margin-top:5px}
+.home-carousel-controls{display:flex;align-items:center;gap:38px;padding:20px 28px;border-top:1px solid var(--line)}
+.home-carousel-segments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;flex:1;min-width:0}
+.home-carousel-segments button{background:transparent;text-align:left;padding:8px 0;min-height:44px;min-width:0;color:var(--muted);font-size:12px;line-height:1.7}
+.home-carousel-segments button[aria-current]{color:var(--green);font-weight:700}
+.home-segment-track{display:block;height:3px;background:var(--line);margin-bottom:9px;overflow:hidden}
+.home-segment-track>span{display:block;background:var(--green);height:100%;width:0}
+.home-carousel-segments button[aria-current] .home-segment-track{background:#a5b8a9}
+.home-carousel-segments button[aria-current] .home-segment-track>span{width:var(--carousel-progress,0%)}
+.home-carousel-arrows{display:flex;gap:6px}
+.home-carousel-arrows button{height:44px;width:44px;border:1px solid var(--line);border-radius:50%;background:#fff;font-size:23px;display:grid;place-items:center}
+.home-carousel-arrows button:hover{background:var(--sage)}
+.home-carousel-arrows #carousel-toggle{font-size:15px;margin-right:8px}
+.home-story-next{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:17px 0 4px}
+.home-story-next p{font-size:14px;line-height:1.8;color:var(--muted)}
+.home-story-next button{background:transparent;white-space:nowrap}
+.home-story .home-score-guide{margin-top:16px}
+@media(max-width:1100px){.home-carousel-slide{gap:30px;padding:34px}.home-slide-copy h3{font-size:40px}.home-slide-scoreboard{padding:24px}.home-carousel-controls{gap:20px}.home-carousel-segments{gap:12px}}
+@media(max-width:760px){
+  body:has(#home-view:not([hidden])) .brand img{width:180px}
+  .home-story{padding-bottom:40px}.home-carousel-stage{min-height:750px}.home-carousel-slide{grid-template-columns:1fr;gap:24px;min-height:750px;padding:27px 24px;align-content:start}
+  .home-slide-copy h3{font-size:38px;letter-spacing:-1.2px;margin:15px 0 17px}.home-slide-intro{font-size:15px;line-height:1.8}.home-slide-eyebrow{font-size:11px}.home-teacher-facts{gap:15px;margin:22px 0}.home-teacher-facts dt{font-size:20px}.home-teacher-facts dd{font-size:12px}.home-slide-detail{font-size:13px;margin-top:18px}.home-slide-copy .home-text-link{font-size:13px}
+  .teacher-portrait{min-height:165px;flex-direction:row;gap:20px;justify-content:center;padding:18px}.home-teacher-emblem{width:80px;height:80px}.teacher-portrait figcaption{font-size:18px;letter-spacing:-.4px;margin:0;text-align:left}.teacher-portrait figcaption>span{font-size:9px;letter-spacing:.5px;margin-bottom:10px}
+  .home-slide-scoreboard{padding:22px}.home-slide-scoreboard .home-result-scores li{padding:16px 0;border-top:0}.home-slide-scoreboard .home-result-scores strong{font-size:36px}.home-slide-scoreboard .home-result-scores strong span{font-size:14px}.home-slide-scoreboard .home-result-scores li>span{font-size:11px}.home-results-context{font-size:12px;margin-top:18px}
+  .home-method li{padding:23px 0;gap:15px}.home-method h4{font-size:20px}.home-method p{font-size:13px}
+  .home-carousel-controls{flex-wrap:wrap;padding:14px 20px 18px;gap:12px}.home-carousel-segments{flex-basis:100%;gap:12px}.home-carousel-segments button{font-size:10px}.home-carousel-arrows{width:100%;justify-content:flex-end}.home-carousel-arrows #carousel-toggle{margin-right:auto}.home-carousel-arrows button{height:44px;width:44px}
+  .home-story-next{display:block;padding-top:19px}.home-story-next p{font-size:13px}.home-story-next .home-text-link{font-size:14px}
+}
+/* Reserve the tallest slide's space so navigation never moves the controls. */
+.home-carousel-stage{display:grid;touch-action:pan-y}
+.home-carousel-slide{grid-area:1 / 1;min-width:0}
+.home-carousel-slide[hidden]{display:grid!important;visibility:hidden;pointer-events:none}
