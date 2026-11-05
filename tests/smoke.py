@@ -131,5 +131,23 @@ class SmokeTests(unittest.TestCase):
         expect(self.page.locator('#account-view')).to_be_visible()
 
 
+    def test_results_score_guide(self):
+        for width in (390, 1440):
+            with self.subTest(width=width):
+                self.page.set_viewport_size({'width': width, 'height': 900})
+                self.go('/')
+                guide = self.page.locator('#oge-score-guide')
+                expect(guide.locator('table')).to_be_hidden()
+                guide.locator('summary').focus()
+                self.page.keyboard.press('Enter')
+                expect(guide.locator('table')).to_be_visible()
+                expect(guide.locator('.home-geometry-note')).to_contain_text('не менее 2 баллов')
+                expect(guide).to_contain_text('Республики Дагестан, 2026 год')
+                self.assertTrue(self.page.evaluate(
+                    'document.documentElement.scrollWidth <= innerWidth'))
+                self.page.keyboard.press('Enter')
+                expect(guide.locator('table')).to_be_hidden()
+
+
 if __name__ == '__main__':
     unittest.main()
